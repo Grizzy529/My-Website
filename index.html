@@ -1,0 +1,1044 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matrix Academy | Hack Your Future</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* CSS Variables */
+        :root {
+            --dark-bg: #111111;
+            --card-bg: #111;
+            --card-border: #222;
+            --accent-green: #00ff41;
+            --light-gray: #aaa;
+            --pure-white: #fff;
+            --shadow-offset: 8px;
+            --transition-speed: 0.3s;
+            --border-radius: 8px;
+            --nav-height: 70px;
+            --font-mono: 'Courier New', Courier, monospace;
+        }
+
+        /* Global Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-mono);
+            background-color: var(--dark-bg);
+            color: var(--pure-white);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: var(--nav-height);
+            background-color: var(--dark-bg);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 5%;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--accent-green);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--pure-white);
+            text-decoration: none;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            transition: color var(--transition-speed);
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-green);
+        }
+
+        .nav-buttons {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .btn {
+            display: inline-block;
+            background: var(--pure-white);
+            color: var(--dark-bg);
+            text-decoration: none;
+            text-transform: uppercase;
+            font-weight: bold;
+            font-family: var(--font-mono);
+            padding: 0.8rem 1.8rem;
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: all var(--transition-speed);
+            letter-spacing: 1px;
+            box-shadow: var(--shadow-offset) var(--shadow-offset) 0 rgba(34, 34, 34, 0.8);
+            position: relative;
+        }
+
+        .btn:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: calc(var(--shadow-offset) + 2px) calc(var(--shadow-offset) + 2px) 0 rgba(34, 34, 34, 0.8);
+        }
+
+        .btn:active {
+            transform: translate(2px, 2px);
+            box-shadow: calc(var(--shadow-offset) - 2px) calc(var(--shadow-offset) - 2px) 0 rgba(34, 34, 34, 0.8);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--pure-white);
+            border: 2px solid var(--pure-white);
+        }
+
+        .btn-green {
+            background: var(--accent-green);
+            color: var(--dark-bg);
+        }
+
+        .btn-arrow::after {
+            content: " →";
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            height: 100vh;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 5%;
+            overflow: hidden;
+        }
+
+        .matrix-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .hero-content {
+            max-width: 900px;
+            z-index: 10;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--pure-white);
+            text-shadow: 0 0 10px rgba(0, 255, 65, 0.7);
+        }
+
+        .hero p {
+            font-size: 1.4rem;
+            margin-bottom: 3rem;
+            color: var(--light-gray);
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .hero-btn {
+            min-width: 250px;
+            font-size: 1.1rem;
+            padding: 1.2rem 2.5rem;
+        }
+
+        /* Content Sections */
+        .section {
+            padding: 6rem 5%;
+            position: relative;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--pure-white);
+            position: relative;
+        }
+
+        .section-title::after {
+            content: "";
+            display: block;
+            width: 100px;
+            height: 4px;
+            background: var(--accent-green);
+            margin: 1rem auto;
+            border-radius: 2px;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+        }
+
+        .card-img {
+            width: 100%;
+            height: 180px;
+            background: linear-gradient(45deg, #1a2a1a, #0d1a0d);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--accent-green);
+            font-size: 3rem;
+        }
+
+        .card-content {
+            padding: 1.5rem;
+        }
+
+        .card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.8rem;
+            color: var(--pure-white);
+        }
+
+        .card p {
+            font-size: 0.9rem;
+            color: var(--light-gray);
+            margin-bottom: 1.5rem;
+        }
+
+        .card .btn {
+            font-size: 0.9rem;
+            padding: 0.6rem 1.5rem;
+        }
+
+        /* Stats Section */
+        .stats {
+            background: linear-gradient(rgba(17, 17, 17, 0.9), rgba(17, 17, 17, 0.9)), 
+                        url('https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=3000') center/cover;
+            text-align: center;
+            padding: 4rem 5%;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .stat-item {
+            padding: 1.5rem;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--accent-green);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-text {
+            font-size: 1.1rem;
+            color: var(--pure-white);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Pricing Section */
+        .pricing {
+            background-color: #0d0d0d;
+            padding: 6rem 5%;
+        }
+
+        .pricing-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .pricing-card {
+            background: var(--dark-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--border-radius);
+            padding: 2.5rem;
+            text-align: center;
+            transition: transform var(--transition-speed);
+        }
+
+        .pricing-card:hover {
+            transform: scale(1.03);
+            border-color: var(--accent-green);
+        }
+
+        .pricing-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: var(--accent-green);
+        }
+
+        .price {
+            font-size: 3rem;
+            font-weight: bold;
+            color: var(--pure-white);
+            margin-bottom: 1.5rem;
+        }
+
+        .price span {
+            font-size: 1rem;
+            color: var(--light-gray);
+        }
+
+        .features {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+
+        .features li {
+            padding: 0.7rem 0;
+            border-bottom: 1px solid var(--card-border);
+            color: var(--light-gray);
+        }
+
+        .features li:last-child {
+            border-bottom: none;
+        }
+
+        .features li i {
+            color: var(--accent-green);
+            margin-right: 0.5rem;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #0a0a0a;
+            padding: 4rem 5% 2rem;
+            border-top: 1px solid var(--card-border);
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-column h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            color: var(--pure-white);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-links a {
+            color: var(--light-gray);
+            text-decoration: none;
+            transition: color var(--transition-speed);
+        }
+
+        .footer-links a:hover {
+            color: var(--accent-green);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid var(--card-border);
+            color: var(--light-gray);
+            font-size: 0.9rem;
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all var(--transition-speed);
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal {
+            background-color: var(--dark-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--border-radius);
+            width: 100%;
+            max-width: 450px;
+            padding: 3rem;
+            position: relative;
+            transform: translateY(-50px);
+            transition: transform var(--transition-speed);
+        }
+
+        .modal-overlay.active .modal {
+            transform: translateY(0);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            background: none;
+            border: none;
+            color: var(--pure-white);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: color var(--transition-speed);
+        }
+
+        .close-modal:hover {
+            color: var(--accent-green);
+        }
+
+        .modal h2 {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            color: var(--pure-white);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--pure-white);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 1rem;
+            background-color: #222;
+            border: 1px solid var(--card-border);
+            border-radius: var(--border-radius);
+            color: var(--pure-white);
+            font-family: var(--font-mono);
+            font-size: 1rem;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--accent-green);
+        }
+
+        .form-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .remember {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--light-gray);
+        }
+
+        .forgot-password {
+            color: var(--accent-green);
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .modal-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .modal-footer {
+            text-align: center;
+            margin-top: 1.5rem;
+            color: var(--light-gray);
+        }
+
+        .modal-footer a {
+            color: var(--accent-green);
+            text-decoration: none;
+        }
+
+        /* Responsive */
+        .hamburger {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--pure-white);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links, .nav-buttons {
+                display: none;
+            }
+
+            .hamburger {
+                display: block;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .hero-btn {
+                min-width: auto;
+                width: 100%;
+                max-width: 300px;
+            }
+
+            .section {
+                padding: 4rem 5%;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .modal {
+                padding: 2rem;
+                margin: 0 1rem;
+            }
+        }
+
+        .mobile-nav {
+            position: fixed;
+            top: var(--nav-height);
+            left: 0;
+            width: 100%;
+            background-color: var(--dark-bg);
+            padding: 2rem;
+            transform: translateY(-100%);
+            transition: transform var(--transition-speed);
+            z-index: 999;
+            border-top: 1px solid var(--card-border);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .mobile-nav.active {
+            transform: translateY(0);
+        }
+
+        .mobile-nav-links {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .mobile-nav-links a {
+            color: var(--pure-white);
+            text-decoration: none;
+            text-transform: uppercase;
+            font-size: 1.1rem;
+            display: block;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .mobile-nav-buttons {
+            margin-top: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="logo">MatrixAcademy</div>
+        <div class="nav-links">
+            <a href="#home" class="active">Home</a>
+            <a href="#courses">Courses</a>
+            <a href="#pricing">Pricing</a>
+            <a href="#free-videos">Free Videos</a>
+            <a href="#about">About</a>
+        </div>
+        <div class="nav-buttons">
+            <button class="btn btn-outline" id="loginBtn">LOG IN</button>
+        </div>
+        <button class="hamburger" id="hamburger">
+            <i class="fas fa-bars"></i>
+        </button>
+    </nav>
+
+    <!-- Mobile Navigation -->
+    <div class="mobile-nav" id="mobileNav">
+        <ul class="mobile-nav-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#courses">Courses</a></li>
+            <li><a href="#pricing">Pricing</a></li>
+            <li><a href="#free-videos">Free Videos</a></li>
+            <li><a href="#about">About</a></li>
+        </ul>
+        <div class="mobile-nav-buttons">
+            <button class="btn btn-outline" id="mobileLoginBtn">LOG IN</button>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <canvas class="matrix-canvas" id="matrixCanvas"></canvas>
+        <div class="hero-content">
+            <h1>Hack Your Future</h1>
+            <p>Unlock your potential with cutting-edge tech courses. Start learning today and build the career of your dreams.</p>
+            <div class="hero-buttons">
+                <a href="#pricing" class="btn hero-btn btn-green btn-arrow">JOIN FOR $12/MO</a>
+                <a href="#free-videos" class="btn btn-outline hero-btn">BROWSE VIDEOS</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats">
+        <div class="stats-grid">
+            <div class="stat-item">
+                <div class="stat-number">59,000+</div>
+                <div class="stat-text">Active Students</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">500+</div>
+                <div class="stat-text">Content Available</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">25,000+</div>
+                <div class="stat-text">Certificates Issued</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">4.9/5</div>
+                <div class="stat-text">Average Rating</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Courses Section -->
+    <section class="section" id="courses">
+        <h2 class="section-title">Popular Courses</h2>
+        <div class="grid-container">
+            <div class="card">
+                <div class="card-img">
+                    <i class="fas fa-network-wired"></i>
+                </div>
+                <div class="card-content">
+                    <h3>Network Security Foundations</h3>
+                    <p>Master network security from architecture design to troubleshooting common issues.</p>
+                    <a href="#" class="btn btn-arrow">ACCESS NOW</a>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-img">
+                    <i class="fas fa-server"></i>
+                </div>
+                <div class="card-content">
+                    <h3>Raspberry Pi Projects</h3>
+                    <p>Build a Raspberry Pi supercomputer and learn containerization, orchestration, and more.</p>
+                    <a href="#" class="btn btn-arrow">ACCESS NOW</a>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-img">
+                    <i class="fas fa-certificate"></i>
+                </div>
+                <div class="card-content">
+                    <h3>CCNA Certification Prep</h3>
+                    <p>Complete course to prepare for your Cisco Certified Network Associate certification.</p>
+                    <a href="#" class="btn btn-arrow">ACCESS NOW</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Free Videos Section -->
+    <section class="section" id="free-videos">
+        <h2 class="section-title">Free Videos</h2>
+        <div class="grid-container">
+            <div class="card">
+                <div class="card-img">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <div class="card-content">
+                    <h3>Intro to Ethical Hacking</h3>
+                    <p>Learn the basics of ethical hacking and cybersecurity in this quick intro.</p>
+                    <a href="#" class="btn">WATCH FREE</a>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-img">
+                    <i class="fab fa-linux"></i>
+                </div>
+                <div class="card-content">
+                    <h3>Setting Up Your Linux Lab</h3>
+                    <p>A step-by-step guide to creating your own hacking environment for practice.</p>
+                    <a href="#" class="btn">WATCH FREE</a>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-img">
+                    <i class="fas fa-wifi"></i>
+                </div>
+                <div class="card-content">
+                    <h3>Wi-Fi Security Explained</h3>
+                    <p>Understand the vulnerabilities of wireless networks and how to secure them.</p>
+                    <a href="#" class="btn">WATCH FREE</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section class="pricing" id="pricing">
+        <h2 class="section-title">Choose Your Plan</h2>
+        <div class="pricing-cards">
+            <div class="pricing-card">
+                <h3>Free Membership</h3>
+                <div class="price">$0<span>/month</span></div>
+                <ul class="features">
+                    <li><i class="fas fa-check"></i> Access to free videos</li>
+                    <li><i class="fas fa-check"></i> Community support</li>
+                    <li><i class="fas fa-check"></i> Basic cheat sheets</li>
+                    <li><i class="fas fa-times"></i> Premium courses</li>
+                    <li><i class="fas fa-times"></i> Certifications</li>
+                </ul>
+                <a href="#" class="btn btn-outline">GET STARTED</a>
+            </div>
+            <div class="pricing-card">
+                <h3>Monthly Membership</h3>
+                <div class="price">$12<span>/month</span></div>
+                <ul class="features">
+                    <li><i class="fas fa-check"></i> All premium courses</li>
+                    <li><i class="fas fa-check"></i> Downloadable resources</li>
+                    <li><i class="fas fa-check"></i> Community access</li>
+                    <li><i class="fas fa-check"></i> Monthly live sessions</li>
+                    <li><i class="fas fa-times"></i> Certification exams</li>
+                </ul>
+                <a href="#" class="btn btn-green">JOIN NOW</a>
+            </div>
+            <div class="pricing-card">
+                <h3>Annual Membership</h3>
+                <div class="price">$99<span>/year</span></div>
+                <ul class="features">
+                    <li><i class="fas fa-check"></i> All premium courses</li>
+                    <li><i class="fas fa-check"></i> Certification exams</li>
+                    <li><i class="fas fa-check"></i> Exclusive content</li>
+                    <li><i class="fas fa-check"></i> Priority support</li>
+                    <li><i class="fas fa-check"></i> Live Q&A sessions</li>
+                </ul>
+                <a href="#" class="btn btn-green">JOIN NOW</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="about">
+        <div class="footer-grid">
+            <div class="footer-column">
+                <h3>MatrixAcademy</h3>
+                <p>We're building something new to help you land your dream IT job. Join now for early access to courses and shape the future of tech education.</p>
+            </div>
+            <div class="footer-column">
+                <h3>Resources</h3>
+                <ul class="footer-links">
+                    <li><a href="#free-videos">Free Videos</a></li>
+                    <li><a href="#">Cheat Sheets</a></li>
+                    <li><a href="#">Community</a></li>
+                    <li><a href="#">Blog</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Company</h3>
+                <ul class="footer-links">
+                    <li><a href="#about">About Us</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">Affiliates</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Follow Us</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Twitter</a></li>
+                    <li><a href="#">YouTube</a></li>
+                    <li><a href="#">Discord</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2023 MatrixAcademy. All rights reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+        </div>
+    </footer>
+
+    <!-- Login Modal -->
+    <div class="modal-overlay" id="loginModal">
+        <div class="modal">
+            <button class="close-modal" id="closeModal">&times;</button>
+            <h2>WELCOME</h2>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="email">EMAIL</label>
+                    <input type="email" id="email" class="form-control" placeholder="your@email.com">
+                </div>
+                <div class="form-group">
+                    <label for="password">PASSWORD</label>
+                    <input type="password" id="password" class="form-control" placeholder="*********">
+                </div>
+                <div class="form-options">
+                    <label class="remember">
+                        <input type="checkbox"> Remember Me
+                    </label>
+                    <a href="#" class="forgot-password">Forgot Password?</a>
+                </div>
+                <div class="modal-buttons">
+                    <button type="submit" class="btn btn-green btn-arrow">SIGN IN</button>
+                </div>
+            </form>
+            <div class="modal-footer">
+                <p>Don't have an account? <a href="#" id="signupLink">Sign Up</a></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Matrix Rain Animation
+        const canvas = document.getElementById('matrixCanvas');
+        const ctx = canvas.getContext('2d');
+
+        // Set canvas to full window size
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        // Characters for the rain
+        const characters = '01';
+        const fontSize = 14;
+        const columns = canvas.width / fontSize;
+
+        // Array of drops - one per column
+        const drops = [];
+        for(let i = 0; i < columns; i++) {
+            drops[i] = Math.floor(Math.random() * canvas.height / fontSize);
+        }
+
+        // Draw function
+        function draw() {
+            // Black background with opacity for trailing effect
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            ctx.fillStyle = '#00ff41'; // Matrix green
+            ctx.font = `${fontSize}px monospace`;
+            
+            for(let i = 0; i < drops.length; i++) {
+                const text = characters.charAt(Math.floor(Math.random() * characters.length));
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                
+                // Reset drop if it reaches the bottom
+                if(drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+                
+                drops[i]++;
+            }
+        }
+
+        // Animation control
+        let animationId;
+        let lastTime = 0;
+        const fpsInterval = 1000 / 30; // 30fps
+
+        function animateMatrix(timeStamp) {
+            if (!lastTime) lastTime = timeStamp;
+            const elapsed = timeStamp - lastTime;
+            
+            if (elapsed > fpsInterval) {
+                lastTime = timeStamp - (elapsed % fpsInterval);
+                draw();
+            }
+            
+            animationId = requestAnimationFrame(animateMatrix);
+        }
+
+        // Start animation
+        animateMatrix();
+
+        // Pause animation when tab is not visible
+        document.addEventListener('visibilitychange', function() {
+            if (document.hidden) {
+                cancelAnimationFrame(animationId);
+            } else {
+                animateMatrix();
+            }
+        });
+
+        // Modal functionality
+        const loginModal = document.getElementById('loginModal');
+        const loginBtn = document.getElementById('loginBtn');
+        const mobileLoginBtn = document.getElementById('mobileLoginBtn');
+        const closeModal = document.getElementById('closeModal');
+        const signupLink = document.getElementById('signupLink');
+        const loginForm = document.getElementById('loginForm');
+
+        function openModal() {
+            loginModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModalFunc() {
+            loginModal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        loginBtn.addEventListener('click', openModal);
+        mobileLoginBtn.addEventListener('click', openModal);
+        closeModal.addEventListener('click', closeModalFunc);
+        signupLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            alert('Sign up form would appear here');
+        });
+
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            // In a real application, you would validate and send to server
+            alert(`Login attempt with:\nEmail: ${email}\nPassword: ${password}`);
+            closeModalFunc();
+        });
+
+        // Close modal when clicking outside
+        loginModal.addEventListener('click', (e) => {
+            if (e.target === loginModal) {
+                closeModalFunc();
+            }
+        });
+
+        // Mobile menu functionality
+        const hamburger = document.getElementById('hamburger');
+        const mobileNav = document.getElementById('mobileNav');
+
+        hamburger.addEventListener('click', () => {
+            mobileNav.classList.toggle('active');
+            if (mobileNav.classList.contains('active')) {
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = 'auto';
+            }
+        });
+
+        // Resize canvas when window size changes
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if(targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if(targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 70,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
